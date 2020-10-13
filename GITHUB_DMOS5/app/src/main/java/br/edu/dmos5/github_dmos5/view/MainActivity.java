@@ -34,14 +34,19 @@ import static br.edu.dmos5.github_dmos5.contants.Constants.URL_GITHUB;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener   {
 
-    private EditText edtUsername;
-    private Button btnSearch;
-    private ImageView mImageView;
+    //Referência para o elemento de RecyclerView
+    private RecyclerView recyclerView;
 
-    private RecyclerView mRecyclerView;
+    //Fonte de dados, essa lista possue os dados que são apresentados
+    //na tela dos dispositivo.
+    private List<Repository> mRepositorioist;
+
     private Adapter adapter;
 
-    private List<Repository> mRepositorioist;
+    //Campos usados na view
+    private EditText editText_username;
+    private Button button_buscar;
+    private ImageView imageView_vazio;
 
     private static final int REQUEST_PERMISSION = 64;
 
@@ -50,24 +55,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        edtUsername   = findViewById(R.id.edt_username);
-        btnSearch     = findViewById(R.id.btn_search);
-        mImageView    = findViewById(R.id.img_empty);
-        mRecyclerView = findViewById(R.id.rcview_repo);
+        //Recupera a referência do elemento no layout
+        recyclerView = findViewById(R.id.recyclerView);
 
-        adapter = new Adapter(mRepositorioist, this);
+        //Recupera a referência do elemento no layout
+        editText_username   = findViewById(R.id.editText_username);
+        button_buscar     = findViewById(R.id.button_buscar);
+        imageView_vazio    = findViewById(R.id.imageView_vazio);
+
+        //Para o recycler parecer um ListView
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(layoutManager);
 
-        btnSearch.setOnClickListener(this);
+
+
+        adapter = new Adapter(mRepositorioist);
+        recyclerView.setAdapter(adapter);
+
+        button_buscar.setOnClickListener(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mImageView.setVisibility(View.VISIBLE);
-        mRecyclerView.setVisibility(View.GONE);
+        imageView_vazio.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
     }
 
 
@@ -76,15 +88,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         String username;
 
-        if(v == btnSearch){
+        if(v == button_buscar){
             if ( permissionVerify() ) {
-                username = edtUsername.getText().toString(); // get username
+                username = editText_username.getText().toString(); // get username
                 if (!username.isEmpty()) {
                     searchRepositorio(username);
                 }
                 else {
-                    mImageView.setVisibility(View.VISIBLE);
-                    mRecyclerView.setVisibility(View.GONE);
+                   imageView_vazio.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
                     Toast.makeText(this, "Erro!", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -104,7 +116,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Retrofit retrofit = new Retrofit.Builder().baseUrl(URL_GITHUB).addConverterFactory(GsonConverterFactory.create()).build();
 
-
         RetrofitService service = retrofit.create(RetrofitService.class);
         Call<List<Repository>> repos = service.getRepository(username);
 
@@ -113,7 +124,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onResponse(Call<List<Repository>> call, Response<List<Repository>> response) {
                 if (response.isSuccessful()) {
                     List<Repository> repos = response.body();
-                    adapter.update(repos, mImageView, mRecyclerView);
+
+                    for(Repository rep : repos){
+                        System.out.println(rep.toString());
+                    }
+
+                    //adapter.update(repos, imageView_vazio, recyclerView);
                 }
             }
 
