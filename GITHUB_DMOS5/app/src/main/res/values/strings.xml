@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">GITHUB_DMOS5</string>
+    <string name="nome_do_repositorio">Nome do repositório</string>
+    <string name="permission_allow">Permissão Concedida!</string>
+    <string name="permission_deny">Permissão Negada!</string>
+    <string name="request_falied">Falha na requisição!</string>
+</resources>
