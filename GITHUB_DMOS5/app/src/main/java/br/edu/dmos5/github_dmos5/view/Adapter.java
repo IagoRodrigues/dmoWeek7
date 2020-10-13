@@ -1,5 +1,6 @@
 package br.edu.dmos5.github_dmos5.view;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.RepositoryViewHolder> 
     //A fonte de dados está em nossa implementação
     private List<Repository> repositories;
 
+    //Oficial
     public Adapter(@NonNull List<Repository> repositorios) {
         this.repositories = repositorios;
     }
@@ -68,7 +70,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.RepositoryViewHolder> 
         recyclerView.setVisibility(View.VISIBLE);
 
         //Adiciono os itens trazidos
+
         if(repositories != null) {
+            //Nessa linha obtenho null pointer exception
             this.repositories.addAll(repositories);
         }
 

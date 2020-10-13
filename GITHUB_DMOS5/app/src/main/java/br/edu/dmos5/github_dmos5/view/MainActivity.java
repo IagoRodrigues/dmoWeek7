@@ -67,8 +67,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-
-
         adapter = new Adapter(mRepositorioist);
         recyclerView.setAdapter(adapter);
 
@@ -123,13 +121,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onResponse(Call<List<Repository>> call, Response<List<Repository>> response) {
                 if (response.isSuccessful()) {
+
+                    //Recebo os repositórios da API
                     List<Repository> repos = response.body();
 
+                    //Consigo escrevê-los no prompt
                     for(Repository rep : repos){
-                        System.out.println(rep.toString());
+                        System.out.println(rep.getName());
                     }
 
-                    //adapter.update(repos, imageView_vazio, recyclerView);
+                    //Passao para o adapter fazer as alterações
+                    adapter.update(repos, imageView_vazio, recyclerView);
+
+
                 }
             }
 
