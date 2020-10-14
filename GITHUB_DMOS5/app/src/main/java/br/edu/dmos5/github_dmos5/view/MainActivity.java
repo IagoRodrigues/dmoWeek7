@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.dmos5.github_dmos5.R;
@@ -69,6 +70,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         adapter = new Adapter(mRepositorioist);
         recyclerView.setAdapter(adapter);
+
+        mRepositorioist = new ArrayList();
 
         button_buscar.setOnClickListener(this);
     }

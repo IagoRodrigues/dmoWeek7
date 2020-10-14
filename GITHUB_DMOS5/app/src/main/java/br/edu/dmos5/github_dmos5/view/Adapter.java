@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.dmos5.github_dmos5.R;
@@ -31,6 +32,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.RepositoryViewHolder> 
     public RepositoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_repositorio, parent, false);
         RepositoryViewHolder viewHolder = new RepositoryViewHolder(view);
+
+        //this.repositories = new ArrayList<>();
 
         return viewHolder;
     }
@@ -71,11 +74,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.RepositoryViewHolder> 
 
         //Adiciono os itens trazidos
 
-        if(repositories != null) {
+        //if(repositories != null) {
             //Nessa linha obtenho null pointer exception
-            this.repositories.addAll(repositories);
-        }
+            //this.repositories.addAll(repositories);
+        //}
 
+        this.repositories = repositories;
         //Notifico a mudança na lista
         notifyDataSetChanged();
     }
